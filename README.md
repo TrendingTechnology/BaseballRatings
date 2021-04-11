@@ -24,6 +24,8 @@ This data was compiled by Retosheet.org. The only stipulation for use of this da
 >charge from and is copyrighted by Retrosheet.  Interested
 >parties may contact Retrosheet at "www.retrosheet.org".
 
+The formats of the data can be found in the `Formats.py` module.
+ 
 ## Examples
 
 This graph shows the distribution of each team's Elo rating over the course of the decade 2010-2019. The ratings are weighted by in-season days.
@@ -32,3 +34,7 @@ This graph shows the distribution of each team's Elo rating over the course of t
 This graph shows the progress of the 5 teams in the AL West over the 5-year period starting in 2014.
 ![American League West Ratings 2014 - 2019](RatingsALW.png)
 
+## Future improvements 
+
+* Finish tuning parameters for best model performance
+* Expand analysis to earlier time periods (requires handling of teams entering/leaving league)
