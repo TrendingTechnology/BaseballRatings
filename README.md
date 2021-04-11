@@ -12,7 +12,7 @@ The only stipulation for use of this data is prominent display of this statement
 
 ## Examples
 
-[Distribution of Elo Ratings](RatingDistr.png)
+![Distribution of Elo Ratings](RatingDistr.png)
 
-[American League West Ratings 2014 - 2019](RatingsALW.png)
+![American League West Ratings 2014 - 2019](RatingsALW.png)
 
