@@ -1,7 +1,4 @@
 ## Packages
-
-setwd('D:\\Lukas\\Projects\\Retrosheet')
-
 library(tidyverse)
 library(DBI)
 library(ggplot2)
