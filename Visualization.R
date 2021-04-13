@@ -1,4 +1,5 @@
 ## Packages
+
 library(tidyverse)
 library(DBI)
 library(ggplot2)
@@ -55,7 +56,7 @@ ranks <- elos %>%
 g2 <- elos %>% left_join(select(ranks, teamid, rank), by = c('teamid', 'division')) %>%
   ggplot(aes(y=name, x=rating)) + 
   geom_density_ridges(aes(fill=division), alpha=0.5) +
-  facet_wrap(~division, scales='free_y') + 
+  facet_wrap(~division, scales='free_y', ncol=2) + 
   guides(fill=FALSE, color=FALSE) + 
   scale_x_continuous(breaks=seq(900,1450,100)) +
   scale_y_discrete(expand = c(0,0)) +
@@ -64,6 +65,6 @@ g2 <- elos %>% left_join(select(ranks, teamid, rank), by = c('teamid', 'division
        x='Rating',
        y='')
 
-ggsave('RatingDistr.png', g2, height=5, width=10, dpi=120)
+ggsave('RatingDistr.png', g2, height=6, width=9, dpi=120)
 
 
