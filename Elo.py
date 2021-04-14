@@ -6,12 +6,13 @@ import pandas as pd
 import sqlite3
 import os.path
 
-def calculate_elos(games, K, R):
+def calculate_elos(games, K, R, M):
     '''
     games:  Pandas dataframe game-level data created by Parser module. Data should be filtered to
                 desired timeframe for analysis.
     K:      Parameter for maximum rating change from win/loss
     R:      Parameter specifying expected margin of victory in an uneven match
+    M:      League-wide mean rating (starting point for new teams)
     Returns: Pandas dataframe with team and date level ratings output
     '''
 
@@ -20,7 +21,7 @@ def calculate_elos(games, K, R):
     teams.sort()
 
     date = 'start'
-    elos_now = {t: 1200 for t in teams}
+    elos_now = {t: M for t in teams}
     w_now = {t: 0 for t in teams}
     l_now = {t: 0 for t in teams}
 
@@ -79,7 +80,8 @@ if __name__ == '__main__':
     # Process games data with default parameters
     K = 12
     R = 400
-    output = calculate_elos(games, K , R)
+    M = 1200
+    output = calculate_elos(games, K , R, M)
 
     # Save output to database
     output.to_sql('elos', conn, if_exists='replace')
