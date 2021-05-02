@@ -6,13 +6,12 @@ import pandas as pd
 import sqlite3
 import os.path
 
-def calculate_elos(games, K, R, M):
+def calculate_elos(games, K, R):
     '''
     games:  Pandas dataframe game-level data created by Parser module. Data should be filtered to
                 desired timeframe for analysis.
     K:      Parameter for maximum rating change from win/loss
     R:      Parameter specifying expected margin of victory in an uneven match
-    M:      League-wide mean rating (starting point for new teams)
     Returns: Pandas dataframe with team and date level ratings output
     '''
 
@@ -21,7 +20,7 @@ def calculate_elos(games, K, R, M):
     teams.sort()
 
     date = 'start'
-    elos_now = {t: M for t in teams}
+    elos_now = {t: 1200 for t in teams}
     w_now = {t: 0 for t in teams}
     l_now = {t: 0 for t in teams}
 
@@ -31,10 +30,15 @@ def calculate_elos(games, K, R, M):
 
     # Iterate through games and calculate rating updates for each encounter
     for i, game in games.iterrows():
+        date_old = date
         v = game.teamid_vis
         h = game.teamid_home
         winner = game.winner
         date = game.date
+        
+        # Check if done with day and output
+        if date_old != date:
+            elos = elos.append(pd.DataFrame(elos_now, index=[date]))
 
         # Elo rating
         R_v = elos_now[v]
@@ -55,16 +59,8 @@ def calculate_elos(games, K, R, M):
         elos_now[v] = R_v_new
         elos_now[h] = R_h_new
 
-        elos = elos.append(pd.DataFrame(elos_now, index=[date]))
-
-        # Updated W-L record
-        w_now[v] = w_now[v] + (1 if winner == 'V' else 0)
-        w_now[h] = w_now[h] + (1 if winner == 'H' else 0)
-        l_now[v] = l_now[v] + (0 if winner == 'V' else 1)
-        l_now[h] = l_now[h] + (0 if winner == 'H' else 1)
-
-        ws = ws.append(pd.DataFrame(w_now, index=[date]))
-        ls = ls.append(pd.DataFrame(l_now, index=[date]))
+    # Output final row
+    elos.append(pd.DataFrame(elos_now, index=[date]))
 
     elos_long = pd.DataFrame(elos.unstack(), columns=['rating'])
     elos_long.index.names = ['teamid', 'date']
@@ -80,8 +76,7 @@ if __name__ == '__main__':
     # Process games data with default parameters
     K = 12
     R = 400
-    M = 1200
-    output = calculate_elos(games, K , R, M)
+    output = calculate_elos(games, K , R)
 
     # Save output to database
     output.to_sql('elos', conn, if_exists='replace')
