@@ -83,8 +83,9 @@ counts <- ranks %>%
 g3 <- ggplot(counts, aes(x=rank, y=count)) + 
   geom_col(aes(fill=year)) + 
   scale_x_continuous(breaks=1:30,labels=c('Worst',29:2, 'Best')) +
+  ylim(0,250) + 
   coord_flip() +
-  facet_wrap(~name, scales='free_x') +
+  facet_wrap(~name) +
   scale_fill_continuous(name='Year') +
   theme(legend.position = c(0.75,0.35), legend.text = element_text('Year')) +
   labs(title='Time Spent as Nth Best Team in League 2010-2019',
