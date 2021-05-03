@@ -36,6 +36,10 @@ This graph shows the progress of the 5 teams in the AL West over the 5-year peri
 
 ![American League West Ratings 2014 - 2019](RatingsALW.png)
 
+Each team was also ranked by their Elo relative to the rest of the league on each day. The graph below shows the time spent at each rating for the 5 teams in the AL West.
+
+![American League West Ranks 2010 - 2019](Rankings.png)
+
 ## Future improvements 
 
 * Finish tuning parameters for best model performance
