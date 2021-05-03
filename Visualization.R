@@ -67,4 +67,29 @@ g2 <- elos %>% left_join(select(ranks, teamid, rank), by = c('teamid', 'division
 
 ggsave('RatingDistr.png', g2, height=6, width=9, dpi=120)
 
+## Calculate and plot rankings within league
 
+ranks <- elos %>% 
+  arrange(date, rating) %>%
+  group_by(date) %>%
+  mutate(rank = rank(rating, ties.method = "first"))
+
+counts <- ranks %>%
+  filter(division == 'AL West') %>%
+  mutate(year=as.integer(year(date))) %>%
+  group_by(name, year, rank) %>%
+  summarize(count = n())
+
+g3 <- ggplot(counts, aes(x=rank, y=count)) + 
+  geom_col(aes(fill=year)) + 
+  scale_x_continuous(breaks=1:30,labels=c('Worst',29:2, 'Best')) +
+  coord_flip() +
+  facet_wrap(~name, scales='free_x') +
+  scale_fill_continuous(name='Year') +
+  theme(legend.position = c(0.75,0.35), legend.text = element_text('Year')) +
+  labs(title='Time Spent as Nth Best Team in League 2010-2019',
+       subtitle='AL West Teams Only\nWeighted by in-season days',
+       x='League-wide Rank',
+       y='') 
+
+ggsave('Rankings.png', g3, height=10, width=10, dpi=120)
