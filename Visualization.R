@@ -86,8 +86,8 @@ g3 <- ggplot(counts, aes(x=rank, y=count)) +
   ylim(0,250) + 
   coord_flip() +
   facet_wrap(~name) +
-  scale_fill_continuous(name='Year') +
-  theme(legend.position = c(0.75,0.35), legend.text = element_text('Year')) +
+  scale_fill_continuous(name='Year', labels = c('2010', '2012', '2015', '2017', '2020'), ) +
+  theme(legend.position = c(0.75,0.36), legend.text = element_text('Year')) +
   labs(title='Time Spent as Nth Best Team in League 2010-2019',
        subtitle='AL West Teams Only\nWeighted by in-season days',
        x='League-wide Rank',
